@@ -1,9 +1,8 @@
 import { Wrapper, Input, Label } from "./Filter.styled";
+import { connect } from "react-redux";
+import {getFilterName} from '../redux/actions';
 
-const Filter = ({ onChange, value }) => {
-  const getFilteredName = (e) => {
-    return onChange(e.currentTarget.value);
-  };
+const Filter = ({filter, getFilterName}) => {
 
   return (
     <Wrapper>
@@ -11,11 +10,21 @@ const Filter = ({ onChange, value }) => {
       <Input
         type="text"
         name="filter"
-        value={value}
-        onChange={getFilteredName}
+        value={filter}
+        onChange={getFilterName}
       />
     </Wrapper>
   );
 };
 
-export default Filter;
+function mapStateToProps(state) {
+  return {
+    filter: state.contacts.filter,
+}}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getFilterName: (e) => { dispatch(getFilterName(e.target.value.toLowerCase())) }
+  }}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Filter);

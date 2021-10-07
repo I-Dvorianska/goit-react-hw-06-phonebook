@@ -3,11 +3,29 @@ import { connect } from "react-redux";
 import {deleteContact} from '../redux/actions';
 
 
-const ContactList = ({ contacts, deleteContact }) => {
+const ContactList = ({ contacts,filter, deleteContact }) => {
+
+  const visibleContacts = () => {
+    if (filter !== '') {
+      if (contacts !== []) {
+        
+      return contacts.filter((contact) =>
+        contact.contactName.toLowerCase().includes(filter)
+      );
+    }
+    } else {
+      return contacts;
+    }
+  }
+
+  const filteredContacts = visibleContacts();
+
+
   return (
     <div>
       <List>
-        {contacts.map((contact) => {
+
+        {filteredContacts.map((contact) => {
           const { id, contactName, number } = contact;
           return (
             <ListItem key={id}>
@@ -25,13 +43,14 @@ const ContactList = ({ contacts, deleteContact }) => {
 
 function mapStateToProps(state) {
   return {
-  contacts: state.contacts.items,
+    contacts: state.contacts.items,
+    filter: state.contacts.filter,
 }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    deleteContact: (id) => {dispatch(deleteContact(id))}
+    deleteContact: (id) => { dispatch(deleteContact(id)) }, 
   }
 
 }

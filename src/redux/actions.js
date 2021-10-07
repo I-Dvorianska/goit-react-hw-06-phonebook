@@ -19,7 +19,7 @@ export const deleteContact = (id) => {
   };
 };
 
-export const filterContacts = (value) => {
+export const getFilterName = (value) => {
   return {
     type: actionTypes.FILTER,
     payload: value,
