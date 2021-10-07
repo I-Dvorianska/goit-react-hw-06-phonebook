@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { connect } from "react-redux";
+import { addContact } from "../redux/actions";
+import toast, { Toaster } from "react-hot-toast";
 import { Form, Label, Input, Button } from "./ContactForm.styled";
 
-function ContactForm({ onSubmit }) {
+function ContactForm({stateContacts, addContact}) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
@@ -21,11 +24,25 @@ function ContactForm({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    onSubmit(name, number);
+    newContact();
     setName("");
     setNumber("");
   };
 
+    const notify = (name) => toast(`${name} is already in contacts`);
+
+
+  const newContact = () => {
+    const contactToAdd = {
+      name,
+      number,
+    };
+
+    stateContacts.contacts.items.some((contact) => contact.contactName === contactToAdd.name)
+      ? notify(contactToAdd.name)
+      : addContact(name, number);
+  }
+  
   return (
     <Form action="" onSubmit={handleSubmit}>
       <Label htmlFor="name">Name</Label>
@@ -48,10 +65,31 @@ function ContactForm({ onSubmit }) {
         title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
         required
       />
+  
 
       <Button type="submit">Add contact</Button>
+
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#f8cd98",
+            color: "#000",
+          },
+        }}
+      />
     </Form>
   );
 }
 
-export default ContactForm;
+const mapStateToProps = state => ({
+  stateContacts: state,
+});
+
+
+const mapDispatchToProps = dispatch => ({
+  addContact: (contactName, number) => dispatch(addContact(contactName, number))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

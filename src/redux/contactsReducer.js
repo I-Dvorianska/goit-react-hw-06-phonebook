@@ -1,14 +1,14 @@
-import { ADD, DELETE, FILTER } from "actionsTypes";
+import { ADD, DELETE, FILTER } from "./actionsTypes";
 import { combineReducers } from "redux";
 
-const itemReducer = (state = [], action) => {
-  switch (action.type) {
+const itemReducer = (state = [], { type, payload }) => {
+  switch (type) {
     case ADD:
-      return [...state, action.payload];
+      return [...state, payload];
 
     case DELETE:
       return state.filter((contact) => {
-        return contact.id !== action.payload;
+        return contact.id !== payload;
       });
 
     default:
@@ -16,10 +16,10 @@ const itemReducer = (state = [], action) => {
   }
 };
 
-const filterReducer = (state, action) => {
-  switch (action.type) {
+const filterReducer = (state = "", { type, payload }) => {
+  switch (type) {
     case FILTER:
-      return (state = action.payload);
+      return (state = payload);
 
     default:
       return state;

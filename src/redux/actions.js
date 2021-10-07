@@ -1,12 +1,12 @@
 import * as actionTypes from "./actionsTypes";
 import { v4 as uuidv4 } from "uuid";
 
-export const addContact = (name, number) => {
+export const addContact = (contactName, number) => {
   return {
     type: actionTypes.ADD,
     payload: {
       id: uuidv4(),
-      name,
+      contactName,
       number,
     },
   };

@@ -1,29 +1,29 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import ContactForm from "./ContactForm/ContactForm";
-import ContactList from "./ContactList/ContactList";
-import Filter from "./Filter/Filter";
+// import ContactList from "./ContactList/ContactList";
+// import Filter from "./Filter/Filter";
 import { PrimaryTitle, SecondaryTitle } from "./App.styled";
-// import { v4 as uuidv4 } from "uuid";
-import toast, { Toaster } from "react-hot-toast";
+// import { connect } from "react-redux";
+// import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   // const [contacts, setContacts] = useState([]);
   // const [filter, setFilter] = useState("");
 
-  useEffect(() => {
-    const storageContacts = localStorage.getItem("contacts");
-    const storageContactsParced = JSON.parse(storageContacts);
+  // useEffect(() => {
+  //   const storageContacts = localStorage.getItem("contacts");
+  //   const storageContactsParced = JSON.parse(storageContacts);
 
-    if (storageContactsParced) {
-      setContacts([...storageContactsParced]);
-    }
-  }, []);
+  //   if (storageContactsParced) {
+  //     setContacts([...storageContactsParced]);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
+  // useEffect(() => {
+  //   localStorage.setItem("contacts", JSON.stringify(contacts));
+  // }, [contacts]);
 
-  const notify = (name) => toast(`${name} is already in contacts`);
+  // const notify = (name) => toast(`${name} is already in contacts`);
 
   // const addContact = (name, number) => {
   //   const newContact = {
@@ -32,32 +32,32 @@ function App() {
   //     number,
   //   };
 
-    contacts.some((contact) => contact.name === newContact.name)
-      ? notify(newContact.name)
-      : setContacts([...contacts, newContact]);
-  };
+  //   contacts.some((contact) => contact.name === newContact.name)
+  //     ? notify(newContact.name)
+  //     : setContacts([...contacts, newContact]);
+  // };
 
   // const deleteContact = (id) => {
   //   return setContacts(contacts.filter((contact) => contact.id !== id));
   // };
 
-  const handleFilter = (text) => {
-    setFilter(text);
-  };
+  // const handleFilter = (text) => {
+  //   setFilter(text);
+  // };
 
-  const visibleContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
+  // const visibleContacts = () => {
+  //   const normalizedFilter = filter.toLowerCase();
 
-    if (contacts !== []) {
-      return contacts.filter((contact) =>
-        contact.name.toLowerCase().includes(normalizedFilter)
-      );
-    }
-  };
+  //   if (contacts !== []) {
+  //     return contacts.filter((contact) =>
+  //       contact.name.toLowerCase().includes(normalizedFilter)
+  //     );
+  //   }
+  // };
 
   return (
     <>
-      <Toaster
+      {/* <Toaster
         position="top-center"
         toastOptions={{
           duration: 3000,
@@ -66,12 +66,12 @@ function App() {
             color: "#000",
           },
         }}
-      />
+      /> */}
       <PrimaryTitle>Phonebook</PrimaryTitle>
-      <ContactForm onSubmit={addContact} />
+      <ContactForm />
       <SecondaryTitle>Contacts</SecondaryTitle>
-      <Filter onChange={handleFilter} value={filter} />
-      <ContactList contacts={visibleContacts()} deleteId={deleteContact} />
+      {/* <Filter onChange={handleFilter} value={filter} /> */}
+      {/* <ContactList contacts={visibleContacts()} deleteId={deleteContact} /> */}
     </>
   );
 }
