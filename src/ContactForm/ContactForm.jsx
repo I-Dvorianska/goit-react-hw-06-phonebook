@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { connect } from "react-redux";
-import { addContact } from "../redux/actions";
+import { useSelector, useDispatch } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
+import { addContact } from "../redux/actions";
+import { contacts } from "../redux/Selectors/contactFormSelectors";
 import { Form, Label, Input, Button } from "./ContactForm.styled";
 
-function ContactForm({stateContacts, addContact}) {
+function ContactForm() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+
+  const stateContacts = useSelector(contacts);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     switch (e.target.name) {
@@ -38,12 +42,12 @@ function ContactForm({stateContacts, addContact}) {
       number,
     };
 
-    stateContacts.contacts.items.some((contact) => contact.contactName === contactToAdd.name)
+    stateContacts.some((contact) => contact.name === contactToAdd.name)
       ? notify(contactToAdd.name)
-      : addContact(name, number);
+      : dispatch(addContact(contactToAdd));
   }
   
-  return (
+  return ( <>
     <Form action="" onSubmit={handleSubmit}>
       <Label htmlFor="name">Name</Label>
       <Input
@@ -69,7 +73,9 @@ function ContactForm({stateContacts, addContact}) {
 
       <Button type="submit">Add contact</Button>
 
-      <Toaster
+      
+    </Form>
+    <Toaster
         position="top-center"
         toastOptions={{
           duration: 3000,
@@ -78,18 +84,9 @@ function ContactForm({stateContacts, addContact}) {
             color: "#000",
           },
         }}
-      />
-    </Form>
+    />
+    </>
   );
 }
 
-const mapStateToProps = state => ({
-  stateContacts: state,
-});
-
-
-const mapDispatchToProps = dispatch => ({
-  addContact: (contactName, number) => dispatch(addContact(contactName, number))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+export default ContactForm;

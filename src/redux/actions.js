@@ -3,11 +3,11 @@ import { v4 as uuidv4 } from "uuid";
 
 export const addContact = createAction(
   "contact/addContact",
-  (contactName, number) => {
+  ({ name, number }) => {
     return {
       payload: {
         id: uuidv4(),
-        contactName,
+        name,
         number,
       },
     };

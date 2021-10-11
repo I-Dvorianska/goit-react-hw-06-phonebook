@@ -1,8 +1,12 @@
 import { Wrapper, Input, Label } from "./Filter.styled";
-import { connect } from "react-redux";
-import {getFilterName} from '../redux/actions';
+import { useSelector, useDispatch } from "react-redux";
+import { getFilterName } from '../redux/actions';
+import {filter} from '../redux/Selectors/filterSelectors'
 
-const Filter = ({filter, getFilterName}) => {
+const Filter = () => {
+  const formFilter = useSelector(filter);
+  const dispatch = useDispatch();
+
 
   return (
     <Wrapper>
@@ -10,21 +14,11 @@ const Filter = ({filter, getFilterName}) => {
       <Input
         type="text"
         name="filter"
-        value={filter}
-        onChange={getFilterName}
+        value={formFilter}
+        onChange={(e) => dispatch(getFilterName(e.target.value.toLowerCase()))}
       />
     </Wrapper>
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    filter: state.contacts.filter,
-}}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getFilterName: (e) => { dispatch(getFilterName(e.target.value.toLowerCase())) }
-  }}
-
-export default connect(mapStateToProps,mapDispatchToProps)(Filter);
+export default Filter;
